@@ -2,7 +2,7 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/light/light_output.h"
-#include <NeoPixelBus.h>
+#include <Arduino.h>
 
 namespace esphome {
 namespace xiaomi_monitor_light {
