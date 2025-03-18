@@ -29,7 +29,8 @@ private:
     int lightBarTempTarget = 0;
     bool lightBarPower = false;
     bool lightBarPowerTarget = false;
-
+    bool adjusting = false;
+    
     int clickDelay = 100; 
 
     int encoderDelay = 10; 

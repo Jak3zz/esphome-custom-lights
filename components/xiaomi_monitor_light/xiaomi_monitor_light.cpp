@@ -34,22 +34,22 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
     lightBarPowerTarget = false;
   }
 
-  if (lightBarPower != lightBarPowerTarget) {
-    togglePower();
-  } else if (lightBarValue != lightBarValueTarget) {
-    setBrightness([this]() {  // Adjust temperature after brightness is done
-      if (lightBarTemp != lightBarTempTarget) {
+  // Do not adjust if already adjusting 
+  if(!adjusting || !lightBarPower){
+    adjusting = true;
+    if (lightBarPower != lightBarPowerTarget) {
+      togglePower();
+      adjusting = false;
+    }
+    else {
+      setBrightness([this]() {  // Adjust temperature after brightness is done
         digitalWrite(pinD, LOW);
         setTemperature([this]() {
           digitalWrite(pinD, HIGH);  // Set pinD HIGH after temperature adjustment is complete
+          adjusting = false;  
         });
-      }
-    });
-  } else if (lightBarTemp != lightBarTempTarget) {
-    digitalWrite(pinD, LOW);
-    setTemperature([this]() {
-      digitalWrite(pinD, HIGH);  // Ensure pinD is HIGH after temperature adjustment
-    });
+      });
+    } 
   }
 }
 
